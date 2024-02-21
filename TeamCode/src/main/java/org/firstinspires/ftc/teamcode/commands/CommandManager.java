@@ -58,6 +58,7 @@ public class CommandManager {
     private final Command homePostionCommand;
     /** Command run at the start of driver controlled */
     private final Command setupCommand;
+    private final Command autoDefaultHangingCommand;
 
     public CommandManager(Robot robot) {
         this.robot = robot;
@@ -160,6 +161,8 @@ public class CommandManager {
             robot.getDroneSubsystem().startPosition();
             robot.getBoxSubsystem().closeBox();
         });
+
+        autoDefaultHangingCommand = new RunCommand(() -> robot.getHangingSubsystem().levelServo(robot.getElbowSubsystem()), robot.getHangingSubsystem(), robot.getElbowSubsystem());
     }
 
     public Command getOpenBoxCommand() {
@@ -268,5 +271,9 @@ public class CommandManager {
 
     public Command getAutoPlaceYellowAndHideCommand(AutoPosition autoPosition) {
         return new AutoPlaceYellowAndHideCommand(robot.getDriveSubsystem(), robot.getElbowSubsystem(), robot.getLinearSlideSubsystem(), robot.getBoxSubsystem(), autoPosition);
+    }
+
+    public Command getAutoDefaultHangingCommand() {
+        return autoDefaultHangingCommand;
     }
 }

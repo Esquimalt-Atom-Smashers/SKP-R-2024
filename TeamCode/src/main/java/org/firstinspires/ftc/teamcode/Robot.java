@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.commands.CommandManager;
 import org.firstinspires.ftc.teamcode.subsystems.BoxSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DistanceSensorSubsystem;
@@ -366,6 +367,10 @@ public class Robot {
 
     public LEDSubsystem getLedSubsystem() {
         return ledSubsystem;
+    }
+
+    public Telemetry getTelemetry() {
+        return opMode.telemetry;
     }
 
     /**

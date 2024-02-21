@@ -197,8 +197,8 @@ public class Constants {
         public static final double MIN_ANGLE = 0;
         public static final double MAX_ANGLE = 270;
 
-        public static final double UP_POSITION = -1;
-        public static final double DOWN_POSITION = -1;
+        public static final double UP_POSITION = 270;
+        public static final double DOWN_POSITION = 190;
 
         public static final double WINCH_SPEED = 1;
         public static final double UNWINCH_SPEED = -.5;

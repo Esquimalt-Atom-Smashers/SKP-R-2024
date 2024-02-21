@@ -31,21 +31,24 @@ public class AutoPlaceYellowAndHideCommand extends SequentialCommandGroup {
     public AutoPlaceYellowAndHideCommand(DriveSubsystem driveSubsystem, ElbowSubsystem elbowSubsystem, LinearSlideSubsystem linearSlideSubsystem, BoxSubsystem boxSubsystem, AutoPosition autoPosition) {
         lastCommand = new WaitCommand(1);
 
-        if (autoPosition.spikeMark == AutoPosition.SpikeMark.UPSTAGE)
+        if (autoPosition.spikeMark == AutoPosition.SpikeMark.UPSTAGE) {
             addCommands(
                     new MoveCommand(driveSubsystem, MovementType.TURN_TO_HEADING, autoPosition.flip(90)),
                     new AutoPlaceYellowCommand(elbowSubsystem, linearSlideSubsystem, boxSubsystem)
             );
-        else if (autoPosition.spikeMark == AutoPosition.SpikeMark.MIDDLE)
+        }
+        else if (autoPosition.spikeMark == AutoPosition.SpikeMark.MIDDLE) {
             addCommands(
                     new AutoPlaceYellowCommand(elbowSubsystem, linearSlideSubsystem, boxSubsystem)
             );
-        else if (autoPosition.spikeMark == AutoPosition.SpikeMark.DOWNSTAGE)
+        }
+        else if (autoPosition.spikeMark == AutoPosition.SpikeMark.DOWNSTAGE) {
             addCommands(
                     new MoveCommand(driveSubsystem, MovementType.STRAFE, autoPosition.flip(8)),
                     new MoveCommand(driveSubsystem, MovementType.TURN_TO_HEADING, autoPosition.flip(90)),
                     new AutoPlaceYellowCommand(elbowSubsystem, linearSlideSubsystem, boxSubsystem)
             );
+        }
 
         if (autoPosition.isUpstage) {
             addHiding(driveSubsystem, autoPosition);

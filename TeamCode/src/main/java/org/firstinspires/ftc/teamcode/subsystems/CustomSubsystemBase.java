@@ -17,4 +17,8 @@ public class CustomSubsystemBase extends SubsystemBase {
     public void printData() {
 
     }
+
+    public Telemetry getTelemetry() {
+        return telemetry;
+    }
 }

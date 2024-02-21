@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.AutoPlaceYellowCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandManager;
 
 public class AutonomousController {
@@ -39,6 +40,8 @@ public class AutonomousController {
 
         if (isBlueAlliance) robot.getLedSubsystem().setBlue();
         else robot.getLedSubsystem().setRed();
+
+        robot.getHangingSubsystem().setDefaultCommand(commandManager.getAutoDefaultHangingCommand());
     }
 
     public void start() {
@@ -48,7 +51,6 @@ public class AutonomousController {
 
     public void run() {
         switch (state) {
-
             case MOVING_TO_SPIKE_MARKS:
                 if (canContinue()) {
                     if (robot.getDistanceSensorSubsystem().isLeftBlocked())
@@ -69,11 +71,17 @@ public class AutonomousController {
                 break;
             case MOVING_TO_BACKDROP:
                 if (canContinue()) {
-                    state = AutonomousState.MOVING_TO_PLACE_YELLOW;
-                    scheduleCommand(commandManager.getAutoPlaceYellowAndHideCommand(autoPosition));
+                    state = AutonomousState.IDLE;
+//                    scheduleCommand(commandManager.getAutoPlaceYellowAndHideCommand(autoPosition));
+                    scheduleCommand(new AutoPlaceYellowCommand(robot.getElbowSubsystem(), robot.getLinearSlideSubsystem(), robot.getBoxSubsystem()));
                 }
+
                 break;
             case MOVING_TO_PLACE_YELLOW:
+                if (canContinue()) {
+                    state = AutonomousState.IDLE;
+                }
+                break;
             case TURNING_CORRECT_DIRECTION:
                 if (canContinue()) {
                     state = AutonomousState.IDLE;
@@ -83,6 +91,9 @@ public class AutonomousController {
                 break;
         }
         CommandScheduler.getInstance().run();
+        telemetry.addData("State", state);
+        robot.getLinearSlideSubsystem().printData();
+        telemetry.update();
     }
 
     public AutoPosition.SpikeMark getSpikeMark() {
@@ -98,6 +109,10 @@ public class AutonomousController {
     }
 
     private void scheduleCommand(Command command) {
+        if (command.isScheduled()) {
+            robot.getTelemetry().addData("Command already scheduled", command).setRetained(true);
+            return;
+        }
         currentCommand = command;
         command.schedule();
     }

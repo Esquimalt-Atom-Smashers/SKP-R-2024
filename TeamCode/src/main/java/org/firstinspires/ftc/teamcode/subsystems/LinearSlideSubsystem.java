@@ -144,10 +144,13 @@ public class LinearSlideSubsystem extends CustomSubsystemBase {
     /** Runs the PID controllers if we are moving to a target. If we are close enough to the target, get out of PID mode. */
     public void runPID() {
         if (state == PIDSubsystemState.MOVING_TO_TARGET) {
+            telemetry.addData("Outer Inner if", "").setRetained(true);
             if (target == 0) {
+                telemetry.addData("Inside Inner Loop", "").setRetained(true);
                 lastPower = -1;
                 slideMotor.setPower(-1);
                 if (isLimitSwitchPressed() || isTimeoutDone()) {
+                    telemetry.addData("Inside Inside Inner Loop", "").setRetained(true);
                     if (isLimitSwitchPressed()) resetEncoder();
                     stopMotor();
                     state = PIDSubsystemState.AT_TARGET;
@@ -192,12 +195,14 @@ public class LinearSlideSubsystem extends CustomSubsystemBase {
     @Override
     public void printData() {
         telemetry.addLine("--- Slide ---");
-        telemetry.addData("Slide Position", slideMotor.getCurrentPosition());
-        telemetry.addData("Slide last power", lastPower);
+        telemetry.addData("State", state);
+
+//        telemetry.addData("Slide Position", slideMotor.getCurrentPosition());
+//        telemetry.addData("Slide last power", lastPower);
         telemetry.addData("Is limit pressed?", isLimitSwitchPressed());
-        telemetry.addData("Target", target);
-        telemetry.addLine("Comparing " + Math.abs(lastPower) + " and " + PID_POWER_TOLERANCE);
-        telemetry.addData("Result", Math.abs(lastPower) <= PID_POWER_TOLERANCE);
+//        telemetry.addData("Target", target);
+//        telemetry.addLine("Comparing " + Math.abs(lastPower) + " and " + PID_POWER_TOLERANCE);
+//        telemetry.addData("Result", Math.abs(lastPower) <= PID_POWER_TOLERANCE);
 //        telemetry.addData("Target", target);
 //        telemetry.addData("State", state);
 //        telemetry.addData("Power", slideMotor.getPower());

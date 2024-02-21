@@ -27,7 +27,7 @@ public class AutoPlaceYellowCommand extends SequentialCommandGroup {
         addCommands(
                 // TODO: Make this happen somewhere else (maybe while placing the purple pixel?)
                 // First move the slide and arm in to make sure their zeroes are good
-                new MoveSlideCommand(linearSlideSubsystem, linearSlideSubsystem.getInPosition()),
+                new MoveSlideCommand(linearSlideSubsystem, 0),
                 new MoveElbowCommand(elbowSubsystem, 0),
                 // Move the arm to low scoring position
                 new MoveElbowCommand(elbowSubsystem, elbowSubsystem.getLowScoringPosition()),

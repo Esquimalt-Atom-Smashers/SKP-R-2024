@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.auto.AutoPosition;
 import org.firstinspires.ftc.teamcode.commands.MoveCommand.MovementType;
@@ -11,6 +13,7 @@ import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
  * either the backdrop or just facing the correct direction.
  */
 public class AutoDriveFromPurpleCommand extends SequentialCommandGroup {
+    private final Command lastCommand;
 
     /**
      * Creates a command that drives from where we placed the purple pixel to the next spot,
@@ -20,6 +23,8 @@ public class AutoDriveFromPurpleCommand extends SequentialCommandGroup {
      * @param autoPosition The starting auto position
      */
     public AutoDriveFromPurpleCommand(DriveSubsystem driveSubsystem, AutoPosition autoPosition) {
+        lastCommand = new WaitCommand(1);
+
         // If we don't want to place the yellow, just turn to face the correct direction, then stop
         if (!autoPosition.isPlacingYellow) {
             addCommands(
@@ -35,6 +40,8 @@ public class AutoDriveFromPurpleCommand extends SequentialCommandGroup {
         else {
             placingDownstage(driveSubsystem, autoPosition);
         }
+
+        addCommands(lastCommand);
     }
 
     private void placingUpstage(DriveSubsystem driveSubsystem, AutoPosition autoPosition) {
@@ -113,5 +120,10 @@ public class AutoDriveFromPurpleCommand extends SequentialCommandGroup {
 
             );
         }
+    }
+
+    @Override
+    public boolean isFinished() {
+        return lastCommand.isFinished();
     }
 }

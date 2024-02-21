@@ -18,6 +18,7 @@ public class MoveSlideCommand extends CommandBase {
      * @param slidePosition The target position of the slide in pulses
      */
     public MoveSlideCommand(LinearSlideSubsystem linearSlideSubsystem, double slidePosition) {
+        linearSlideSubsystem.getTelemetry().addData("Not started, target", slidePosition).setRetained(true);
         this.linearSlideSubsystem = linearSlideSubsystem;
         target = slidePosition;
         addRequirements(this.linearSlideSubsystem);
@@ -25,8 +26,10 @@ public class MoveSlideCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        linearSlideSubsystem.getTelemetry().addData("Started, target", target).setRetained(true);
         if (target == -1) {
             cancel();
+            end(true);
             return;
         }
         linearSlideSubsystem.setTarget(target, 1.5);
@@ -34,11 +37,13 @@ public class MoveSlideCommand extends CommandBase {
 
     @Override
     public void execute() {
+        linearSlideSubsystem.getTelemetry().addData("Executing, target", target);
         linearSlideSubsystem.runPID();
     }
 
     @Override
     public void end(boolean interrupted) {
+        linearSlideSubsystem.getTelemetry().addData("Ending, target", target).setRetained(true);
         linearSlideSubsystem.stopMotor();
     }
 

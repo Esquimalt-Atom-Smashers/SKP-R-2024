@@ -21,9 +21,10 @@ public class AutoSetupCommand extends SequentialCommandGroup {
      * @param intakeSubsystem Reference to the intakeSubsystem
      */
     public AutoSetupCommand(DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
+        lastCommand = new MoveCommand(driveSubsystem, MovementType.DRIVE, 32, 1000);
         addCommands(
                 new InstantCommand(intakeSubsystem::upPosition, intakeSubsystem),
-                lastCommand = new MoveCommand(driveSubsystem, MovementType.DRIVE, 32, 1000)
+                lastCommand
         );
     }
 

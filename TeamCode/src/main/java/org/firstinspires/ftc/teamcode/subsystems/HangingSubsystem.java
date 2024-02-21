@@ -7,8 +7,10 @@ import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 /**
  * A subsystem that represents the motor that controls the winch.
@@ -62,32 +64,35 @@ public class HangingSubsystem extends CustomSubsystemBase {
     public void stopMotor() { winchMotor.setPower(0); }
 
     public void raiseServo() {
-        hookServo.setPosition(UP_POSITION);
+        hookServo.turnToAngle(UP_POSITION);
         servoState = ServoState.MANUAL;
     }
 
     public void lowerServo() {
-        hookServo.setPosition(DOWN_POSITION);
+        hookServo.turnToAngle(DOWN_POSITION);
         servoState = ServoState.LEVEL;
     }
 
     public void levelServo(ElbowSubsystem elbowSubsystem) {
         if (servoState == ServoState.LEVEL) {
-            hookServo.setPosition(convertPosition(elbowSubsystem.getPosition()));
+
+            hookServo.turnToAngle(convertPosition(elbowSubsystem.getPosition()));
         }
     }
 
     private double convertPosition(double value) {
-        // TODO: I have no idea how to convert the value, more testing needed
-        telemetry.addData("Value", value);
+        telemetry.addData("Input", value);
+        telemetry.addData("Output", Range.clip(-0.009 * value + 225, 0, 270));
 
-        return 0;
-//        return Range.clip(value, 0, 270);
+        // See this
+        // https://www.desmos.com/calculator/8xvalris8b
+        return Range.clip(-0.009 * value + 225, 0, 270);
     }
 
     /** Prints data from the subsystem */
     @Override
     public void printData() {
-
+        telemetry.addData("State", servoState);
+        telemetry.addData("Angle", hookServo.getAngle(AngleUnit.DEGREES));
     }
 }
