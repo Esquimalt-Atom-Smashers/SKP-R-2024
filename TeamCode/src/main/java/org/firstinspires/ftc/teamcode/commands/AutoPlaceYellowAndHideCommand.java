@@ -30,6 +30,7 @@ public class AutoPlaceYellowAndHideCommand extends SequentialCommandGroup {
      */
     public AutoPlaceYellowAndHideCommand(DriveSubsystem driveSubsystem, ElbowSubsystem elbowSubsystem, LinearSlideSubsystem linearSlideSubsystem, BoxSubsystem boxSubsystem, AutoPosition autoPosition) {
         lastCommand = new WaitCommand(1);
+        addRequirements(driveSubsystem, elbowSubsystem, linearSlideSubsystem, boxSubsystem);
 
         if (autoPosition.spikeMark == AutoPosition.SpikeMark.UPSTAGE) {
             addCommands(
@@ -60,7 +61,6 @@ public class AutoPlaceYellowAndHideCommand extends SequentialCommandGroup {
         }
 
         addCommands(lastCommand);
-        addRequirements(driveSubsystem, elbowSubsystem, linearSlideSubsystem, boxSubsystem);
     }
 
     private void addHiding(DriveSubsystem driveSubsystem, AutoPosition autoPosition) {

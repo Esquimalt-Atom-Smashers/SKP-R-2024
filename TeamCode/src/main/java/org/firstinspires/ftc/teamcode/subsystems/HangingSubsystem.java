@@ -81,10 +81,17 @@ public class HangingSubsystem extends CustomSubsystemBase {
     }
 
     private double convertPosition(double value) {
-        telemetry.addData("Input", value);
-        telemetry.addData("Output", Range.clip(-0.009 * value + 225, 0, 270));
+//        telemetry.addData("Input", value);
+//        telemetry.addData("Output", Range.clip(-0.009 * value + 225, 0, 270));
 
         // See this
+        // elbow    servo
+        // 3900	    190
+        // 3200	    195
+        // 1900 	210
+        // 1100 	215
+        // 500	    220
+        // 0	    225
         // https://www.desmos.com/calculator/8xvalris8b
         return Range.clip(-0.009 * value + 225, 0, 270);
     }

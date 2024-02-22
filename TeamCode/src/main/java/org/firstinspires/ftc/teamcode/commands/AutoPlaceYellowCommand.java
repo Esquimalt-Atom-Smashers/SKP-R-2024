@@ -23,6 +23,7 @@ public class AutoPlaceYellowCommand extends SequentialCommandGroup {
      * @param boxSubsystem Reference to the boxSubsystem
      */
     public AutoPlaceYellowCommand(ElbowSubsystem elbowSubsystem, LinearSlideSubsystem linearSlideSubsystem, BoxSubsystem boxSubsystem) {
+        addRequirements(elbowSubsystem, linearSlideSubsystem, boxSubsystem);
         lastCommand = new WaitCommand(1);
         addCommands(
                 // TODO: Make this happen somewhere else (maybe while placing the purple pixel?)
@@ -42,7 +43,6 @@ public class AutoPlaceYellowCommand extends SequentialCommandGroup {
                 new MoveElbowCommand(elbowSubsystem, elbowSubsystem.getLevelPosition()),
                 lastCommand
         );
-        addRequirements(elbowSubsystem, linearSlideSubsystem, boxSubsystem);
     }
 
     @Override
