@@ -144,13 +144,13 @@ public class LinearSlideSubsystem extends CustomSubsystemBase {
     /** Runs the PID controllers if we are moving to a target. If we are close enough to the target, get out of PID mode. */
     public void runPID() {
         if (state == PIDSubsystemState.MOVING_TO_TARGET) {
-            telemetry.addData("Outer Inner if", "").setRetained(true);
+//            telemetry.addData("Outer Inner if", "").setRetained(true);
             if (target == 0) {
-                telemetry.addData("Inside Inner Loop", "").setRetained(true);
+//                telemetry.addData("Inside Inner Loop", "").setRetained(true);
                 lastPower = -1;
                 slideMotor.setPower(-1);
                 if (isLimitSwitchPressed() || isTimeoutDone()) {
-                    telemetry.addData("Inside Inside Inner Loop", "").setRetained(true);
+//                    telemetry.addData("Inside Inside Inner Loop", "").setRetained(true);
                     if (isLimitSwitchPressed()) resetEncoder();
                     stopMotor();
                     state = PIDSubsystemState.AT_TARGET;
