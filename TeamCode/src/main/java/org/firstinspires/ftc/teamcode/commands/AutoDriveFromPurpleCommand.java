@@ -88,6 +88,8 @@ public class AutoDriveFromPurpleCommand extends SequentialCommandGroup {
             // TODO: Be super careful testing this!!!
             addCommands(
                     // TODO: Don't drive straight through the purple pixel
+                    new MoveCommand(driveSubsystem, MovementType.STRAFE, autoPosition.flip(15)),
+                    new MoveCommand(driveSubsystem, MovementType.SLOW_TURN_TO_HEADING, 0),
                     // Move forwards a bit
                     new MoveCommand(driveSubsystem, MovementType.DRIVE, 25),
                     // Rotate to 90
@@ -95,12 +97,13 @@ public class AutoDriveFromPurpleCommand extends SequentialCommandGroup {
                     // Turn to heading to be safe?
                     new MoveCommand(driveSubsystem, MovementType.SLOW_TURN_TO_HEADING, autoPosition.flip(90)),
                     // Drive forwards under the truss, stopping at the tape
-                    // TODO: Drive a bit less
-                    new MoveCommand(driveSubsystem, MovementType.DRIVE, 80),
+                    // TODO: We drove a bit far
+                    new MoveCommand(driveSubsystem, MovementType.DRIVE, 90),
                     // Strafe left a bit
                     new MoveCommand(driveSubsystem, MovementType.STRAFE, autoPosition.flip(-23)),
                     // Turn to heading again
                     // TODO: Turn slower
+                    new MoveCommand(driveSubsystem, MovementType.SLOW_TURN_TO_HEADING, autoPosition.flip(90)),
                     new MoveCommand(driveSubsystem, MovementType.SLOW_TURN_TO_HEADING, autoPosition.flip(90))
                     // End
             );
