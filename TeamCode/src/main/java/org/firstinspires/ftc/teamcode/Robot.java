@@ -157,8 +157,17 @@ public class Robot {
         // --- LinearSlideSubsystem ---
         linearSlideSubsystem.setDefaultCommand(commandManager.getDefaultSlideCommand());
 
-        // --- WinchSubsystem ---
+        // --- HangingSubsystem ---
+        // Level the servo if it is supposed to, raise and lower the winch using the operator left bumper and trigger
         hangingSubsystem.setDefaultCommand(commandManager.getDefaultHangingCommand());
+
+        // Press driver up dpad to raise the hanging servo
+        Trigger raiseHangingArmTrigger = new Trigger(() -> driverGamepad.getButton(GamepadKeys.Button.DPAD_UP));
+        raiseHangingArmTrigger.whenActive(commandManager.getRaiseHangingArmCommand());
+
+        // Press driver down dpad to lower the handing servo
+        Trigger lowerHangingArmTrigger = new Trigger(() -> driverGamepad.getButton(GamepadKeys.Button.DPAD_DOWN));
+        lowerHangingArmTrigger.whenActive(commandManager.getLowerHangingArmCommand());
 
         // --- IntakeSubsystem ---
         // Press operator A to enter intake mode, when in intake mode, press operator A to pick up the pixels
@@ -197,7 +206,7 @@ public class Robot {
 
     /** Schedule any commands that run at the start of teleop mode. */
     public void start() {
-//        commandManager.getSetupCommand().schedule();
+        commandManager.getSetupCommand().schedule();
     }
 
     /**
@@ -205,7 +214,6 @@ public class Robot {
      * Also prints data from the subsystems and updates the telemetry.
      */
     public void run() {
-        // Run the command scheduler, which polls the gamepad inputs, and performs the commands created in bindCommands
         if (!manualMode)
             CommandScheduler.getInstance().run();
 

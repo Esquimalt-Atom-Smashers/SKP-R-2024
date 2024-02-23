@@ -40,6 +40,8 @@ public class CommandManager {
     private final Command defaultSlideCommand;
     /** Default command for HangingSubsystem */
     private final Command defaultHangingCommand;
+    private final Command raiseHangingArmCommand;
+    private final Command lowerHangingArmCommand;
     /** Command that lowers arm and intake and enters intake mode */
     private final Command intakeModeCommand;
     /** Command that starts outtaking */
@@ -111,6 +113,10 @@ public class CommandManager {
             else robot.getHangingSubsystem().stopMotor();
         }, robot.getHangingSubsystem());
 
+        raiseHangingArmCommand = new InstantCommand(() -> robot.getHangingSubsystem().raiseServo(), robot.getHangingSubsystem());
+
+        lowerHangingArmCommand = new InstantCommand(() -> robot.getHangingSubsystem().lowerServo(), robot.getHangingSubsystem());
+
         intakeModeCommand = new SequentialCommandGroup(
                 new InstantCommand(() -> {
                     robot.setState(Robot.RobotState.INTAKE);
@@ -160,7 +166,8 @@ public class CommandManager {
         setupCommand = new InstantCommand(() -> {
             robot.getDroneSubsystem().startPosition();
             robot.getBoxSubsystem().closeBox();
-        });
+//            robot.getHangingSubsystem().lowerServo();
+        }, robot.getDroneSubsystem(), robot.getBoxSubsystem());
 
         autoDefaultHangingCommand = new RunCommand(() -> robot.getHangingSubsystem().levelServo(robot.getElbowSubsystem()), robot.getHangingSubsystem(), robot.getElbowSubsystem());
     }
@@ -219,6 +226,14 @@ public class CommandManager {
 
     public Command getDefaultHangingCommand() {
         return defaultHangingCommand;
+    }
+
+    public Command getRaiseHangingArmCommand() {
+        return raiseHangingArmCommand;
+    }
+
+    public Command getLowerHangingArmCommand() {
+        return lowerHangingArmCommand;
     }
 
     public Command getIntakeModeCommand () {
