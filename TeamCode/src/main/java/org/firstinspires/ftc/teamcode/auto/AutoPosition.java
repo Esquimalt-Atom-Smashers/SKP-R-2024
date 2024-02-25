@@ -21,7 +21,7 @@ public class AutoPosition {
     /** Whether we are upstage. */
     public boolean isUpstage;
     /** Whether we are parking upstage from downstage. */
-    public boolean parkingDownstage;
+    public boolean isParkingFromDownstage;
 
     /**
      * Creates an autonomous position with the specified parameters. Does not set what the spike mark position is.
@@ -30,11 +30,11 @@ public class AutoPosition {
      * @param isPlacingYellow Whether we want to place the yellow on the backdrop.
      * @param isUpstage Whether we are upstage.
      */
-    public AutoPosition(boolean isBlue, boolean isPlacingYellow, boolean isUpstage, boolean parkingDownstage) {
+    public AutoPosition(boolean isBlue, boolean isPlacingYellow, boolean isUpstage, boolean isParkingFromDownstage) {
         this.isBlue = isBlue;
         this.isPlacingYellow = isPlacingYellow;
         this.isUpstage = isUpstage;
-        this.parkingDownstage = parkingDownstage;
+        this.isParkingFromDownstage = isParkingFromDownstage;
     }
 
     /**
@@ -45,8 +45,8 @@ public class AutoPosition {
      * @param isPlacingYellow Whether we want to place the yellow on the backdrop.
      * @param isUpstage Whether we are upstage.
      */
-    public AutoPosition(SpikeMark spikeMark, boolean isBlue, boolean isPlacingYellow, boolean isUpstage, boolean parkingDownstage) {
-        this(isBlue, isPlacingYellow, isUpstage, parkingDownstage);
+    public AutoPosition(SpikeMark spikeMark, boolean isBlue, boolean isPlacingYellow, boolean isUpstage, boolean isParkingFromDownstage) {
+        this(isBlue, isPlacingYellow, isUpstage, isParkingFromDownstage);
         this.spikeMark = spikeMark;
     }
 
