@@ -5,11 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.auto.AutonomousController;
 
-@Autonomous(name = "BlueDownstage", group = "Auto")
-public class AutoBlueDownstage extends LinearOpMode {
+@Autonomous(name = "BlueDownstage (No placing Yellow)", group = "Auto")
+public class AutoBlueDownstageNoPlacement extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        AutonomousController autonomousController = new AutonomousController(this, true, false, true, false);
+        AutonomousController autonomousController = new AutonomousController(this, true, false, false, false);
 
 //        telemetry.addLine("This autonomous mode is used for when we start on the blue alliance, farther from the backdrop.");
 //        telemetry.addLine("In autonomous, this mode drives forward, places a purple pixel on the correct spike mark, drives all the way to the backdrop, and places a yellow pixel in the correct spot.");

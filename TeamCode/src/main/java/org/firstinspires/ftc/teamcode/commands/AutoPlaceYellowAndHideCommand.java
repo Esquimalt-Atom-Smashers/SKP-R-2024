@@ -45,7 +45,7 @@ public class AutoPlaceYellowAndHideCommand extends SequentialCommandGroup {
         }
         else if (autoPosition.spikeMark == AutoPosition.SpikeMark.DOWNSTAGE) {
             addCommands(
-                    new MoveCommand(driveSubsystem, MovementType.STRAFE, autoPosition.flip(8)),
+                    new MoveCommand(driveSubsystem, MovementType.STRAFE, autoPosition.flip(6)),
                     new MoveCommand(driveSubsystem, MovementType.TURN_TO_HEADING, autoPosition.flip(90)),
                     new AutoPlaceYellowCommand(elbowSubsystem, linearSlideSubsystem, boxSubsystem)
             );
@@ -76,7 +76,8 @@ public class AutoPlaceYellowAndHideCommand extends SequentialCommandGroup {
                     new MoveCommand(driveSubsystem, MovementType.TURN, autoPosition.flip(-90)),
                     new MoveCommand(driveSubsystem, MovementType.DRIVE, -24),
                     new MoveCommand(driveSubsystem, MovementType.STRAFE, autoPosition.flip(-4)),
-                    new MoveCommand(driveSubsystem, MovementType.TURN_TO_HEADING, autoPosition.flip(0))
+                    new MoveCommand(driveSubsystem, MovementType.TURN_TO_HEADING, autoPosition.flip(0)),
+                    new MoveCommand(driveSubsystem, MovementType.SLOW_TURN_TO_HEADING, autoPosition.flip(0))
             );
         else if (autoPosition.spikeMark == AutoPosition.SpikeMark.DOWNSTAGE)
             addCommands(

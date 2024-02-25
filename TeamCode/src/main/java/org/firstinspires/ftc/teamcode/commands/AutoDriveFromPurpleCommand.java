@@ -49,7 +49,7 @@ public class AutoDriveFromPurpleCommand extends SequentialCommandGroup {
             addCommands(
                     new MoveCommand(driveSubsystem, MovementType.TURN, autoPosition.flip(90)),
                     new MoveCommand(driveSubsystem, MovementType.DRIVE, 25),
-                    new MoveCommand(driveSubsystem, MovementType.STRAFE, autoPosition.flip(8))
+                    new MoveCommand(driveSubsystem, MovementType.STRAFE, autoPosition.flip(5))
             );
         } else if (autoPosition.spikeMark == AutoPosition.SpikeMark.MIDDLE) {
             addCommands(
@@ -67,65 +67,25 @@ public class AutoDriveFromPurpleCommand extends SequentialCommandGroup {
         }
     }
 
+    //not currently being used
     private void placingDownstage(DriveSubsystem driveSubsystem, AutoPosition autoPosition) {
-        if (autoPosition.spikeMark == AutoPosition.SpikeMark.UPSTAGE) {
-            // We start around 28 inches forwards, 4 inches right, facing the backdrop
-            // TODO: Be super careful testing this!!!
-            addCommands(
-                    // Strafe a bit
-                    new MoveCommand(driveSubsystem, MovementType.STRAFE, autoPosition.flip(24)),
-                    // Turn to heading
-                    new MoveCommand(driveSubsystem, MovementType.TURN_TO_HEADING, autoPosition.flip(90)),
-                    // Drive forwards
-                    new MoveCommand(driveSubsystem, MovementType.DRIVE, 80),
-                    // Strafe
-                    new MoveCommand(driveSubsystem, MovementType.STRAFE, autoPosition.flip(-25)),
-                    // Turn to heading
-                    new MoveCommand(driveSubsystem, MovementType.TURN_TO_HEADING, autoPosition.flip(90))
-            );
-        } else if (autoPosition.spikeMark == AutoPosition.SpikeMark.MIDDLE) {
-            // We start 25 inches forwards
-            // TODO: Be super careful testing this!!!
-            addCommands(
-                    // TODO: Don't drive straight through the purple pixel
-                    new MoveCommand(driveSubsystem, MovementType.STRAFE, autoPosition.flip(15)),
-                    new MoveCommand(driveSubsystem, MovementType.SLOW_TURN_TO_HEADING, 0),
-                    // Move forwards a bit
-                    new MoveCommand(driveSubsystem, MovementType.DRIVE, 25),
-                    // Rotate to 90
-                    new MoveCommand(driveSubsystem, MovementType.TURN, autoPosition.flip(90)),
-                    // Turn to heading to be safe?
-                    new MoveCommand(driveSubsystem, MovementType.SLOW_TURN_TO_HEADING, autoPosition.flip(90)),
-                    // Drive forwards under the truss, stopping at the tape
-                    // TODO: We drove a bit far
-                    new MoveCommand(driveSubsystem, MovementType.DRIVE, 90),
-                    // Strafe left a bit
-                    new MoveCommand(driveSubsystem, MovementType.STRAFE, autoPosition.flip(-23)),
-                    // Turn to heading again
-                    // TODO: Turn slower
-                    new MoveCommand(driveSubsystem, MovementType.SLOW_TURN_TO_HEADING, autoPosition.flip(90)),
-                    new MoveCommand(driveSubsystem, MovementType.SLOW_TURN_TO_HEADING, autoPosition.flip(90))
-                    // End
-            );
-        } else if (autoPosition.spikeMark == AutoPosition.SpikeMark.DOWNSTAGE) {
-            // We start about 28 inches forwards, 2 inches left
-            // TODO: Be super careful testing this!!!
-            addCommands(
-                    // Strafe right
-                    new MoveCommand(driveSubsystem, MovementType.STRAFE, 23),
-                    // Turn to heading
-                    new MoveCommand(driveSubsystem, MovementType.TURN_TO_HEADING, autoPosition.flip(90)),
-                    // Drive forwards
-                    new MoveCommand(driveSubsystem, MovementType.DRIVE, 75),
-                    // Turn to heading
-                    new MoveCommand(driveSubsystem, MovementType.TURN_TO_HEADING, autoPosition.flip(90)),
-                    // Strafe left
-                    new MoveCommand(driveSubsystem, MovementType.STRAFE, autoPosition.flip(-24)),
-                    // Turn to heading
-                    new MoveCommand(driveSubsystem, MovementType.SLOW_TURN_TO_HEADING, autoPosition.flip(90))
 
-            );
-        }
+        addCommands(
+                // Strafe right
+                new MoveCommand(driveSubsystem, MovementType.STRAFE, autoPosition.flip(-20)),
+                // Turn to heading
+                new MoveCommand(driveSubsystem, MovementType.TURN_TO_HEADING, autoPosition.flip(90)),
+                new MoveCommand(driveSubsystem, MovementType.SLOW_TURN_TO_HEADING, autoPosition.flip(90)),
+                // Drive forwards
+                new MoveCommand(driveSubsystem, MovementType.DRIVE, 85),
+                // Turn to heading
+                new MoveCommand(driveSubsystem, MovementType.TURN_TO_HEADING, autoPosition.flip(0)),
+                // Turn to heading
+                new MoveCommand(driveSubsystem, MovementType.SLOW_TURN_TO_HEADING, autoPosition.flip(0)),
+                // Drive backwards
+                new MoveCommand(driveSubsystem, MovementType.DRIVE, -5)
+        );
+
     }
 
     @Override

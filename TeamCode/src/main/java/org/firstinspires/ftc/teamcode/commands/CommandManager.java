@@ -107,7 +107,7 @@ public class CommandManager {
         }, robot.getLinearSlideSubsystem());
 
         defaultHangingCommand = new RunCommand(() -> {
-            robot.getHangingSubsystem().levelServo(robot.getElbowSubsystem());
+//            robot.getHangingSubsystem().levelServo(robot.getElbowSubsystem());
             if (robot.getOperatorGamepad().getButton(GamepadKeys.Button.LEFT_BUMPER)) robot.getHangingSubsystem().winch();
             else if (robot.isPressed(robot.getOperatorGamepad().getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER))) robot.getHangingSubsystem().unwinch();
             else robot.getHangingSubsystem().stopMotor();

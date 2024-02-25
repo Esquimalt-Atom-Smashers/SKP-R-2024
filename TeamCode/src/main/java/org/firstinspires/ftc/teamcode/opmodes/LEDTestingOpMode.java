@@ -21,11 +21,11 @@ public class LEDTestingOpMode extends LinearOpMode {
         LEDSubsystem ledSubsystem = new LEDSubsystem(hardwareMap, telemetry);
         ledSubsystem.setLights(currentPattern);
 
-        telemetry.addLine("This op mode is used for testing the LEDs");
-        telemetry.addLine("While enabled, you can use the d-pad to rotate through the different light patterns.");
-        telemetry.addLine("Left for previous, right for next, up for back 10, down for next 10.");
-        telemetry.addLine("You can see the current pattern printed out on the telemetry.");
-        telemetry.update();
+//        telemetry.addLine("This op mode is used for testing the LEDs");
+//        telemetry.addLine("While enabled, you can use the d-pad to rotate through the different light patterns.");
+//        telemetry.addLine("Left for previous, right for next, up for back 10, down for next 10.");
+//        telemetry.addLine("You can see the current pattern printed out on the telemetry.");
+//        telemetry.update();
 
         waitForStart();
 

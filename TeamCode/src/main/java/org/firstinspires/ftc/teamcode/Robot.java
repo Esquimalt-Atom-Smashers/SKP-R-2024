@@ -280,13 +280,13 @@ public class Robot {
 
     public void printData() {
         opMode.telemetry.addData("Robot state", state);
-        opMode.telemetry.addData("Gyro heading: ",  driveSubsystem.getHeading());
+//        opMode.telemetry.addData("Gyro heading: ",  driveSubsystem.getHeading());
 
-        elbowSubsystem.printData();
-        linearSlideSubsystem.printData();
-        distanceSensorSubsystem.printData();
-        boxSubsystem.printData();
-        intakeSubsystem.printData();
+//        elbowSubsystem.printData();
+//        linearSlideSubsystem.printData();
+//        distanceSensorSubsystem.printData();
+//        boxSubsystem.printData();
+//        intakeSubsystem.printData();
     }
 
     /**

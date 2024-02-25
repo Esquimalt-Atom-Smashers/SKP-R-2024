@@ -37,7 +37,7 @@ public class AutonomousController {
 
     private final AutoPosition autoPosition;
 
-    public AutonomousController(OpMode opMode, boolean isBlueAlliance, boolean isUpstage, boolean isPlacingYellow) {
+    public AutonomousController(OpMode opMode, boolean isBlueAlliance, boolean isUpstage, boolean isPlacingYellow, boolean parkingDownstage) {
         this.hardwareMap = opMode.hardwareMap;
         this.telemetry = opMode.telemetry;
 
@@ -46,7 +46,7 @@ public class AutonomousController {
 //        robot.getLinearSlideSubsystem().getTelemetry().addData("From slide, position", robot.getLinearSlideSubsystem().getPosition()).setRetained(true);
 
         commandManager = new CommandManager(robot);
-        autoPosition = new AutoPosition(isBlueAlliance, isPlacingYellow, isUpstage);
+        autoPosition = new AutoPosition(isBlueAlliance, isPlacingYellow, isUpstage, parkingDownstage);
 
         if (isBlueAlliance) robot.getLedSubsystem().setBlue();
         else robot.getLedSubsystem().setRed();
@@ -56,13 +56,6 @@ public class AutonomousController {
 
     public void start() {
         state = AutonomousState.MOVING_TO_SPIKE_MARKS;
-//        Command wait = new WaitCommand(10);
-//        scheduleCommand(new SequentialCommandGroup(
-//                new MoveCommand(robot.getDriveSubsystem(), MoveCommand.MovementType.DRIVE, 10),
-//                new MoveElbowCommand(robot.getElbowSubsystem(), 3000),
-//                wait
-//        ));
-//        currentCommand = wait;
         scheduleCommand(commandManager.getAutoSetupCommand());
     }
 
@@ -89,17 +82,7 @@ public class AutonomousController {
             case MOVING_TO_BACKDROP:
                 if (canContinue()) {
                     state = AutonomousState.MOVING_TO_PLACE_YELLOW;
-//                    Command test = new WaitCommand(1);
-//                    scheduleCommand(new SequentialCommandGroup(
-//                            new InstantCommand(() -> robot.getElbowSubsystem().moveManually(0.3), robot.getElbowSubsystem()),
-//                            new WaitCommand(1000),
-//                            new InstantCommand(() -> robot.getElbowSubsystem().moveManually(0), robot.getElbowSubsystem()),
-//                            new InstantCommand(() -> robot.getElbowSubsystem().stopMotor(), robot.getElbowSubsystem()),
-//                            test
-//                    ));
-//                    currentCommand = test;
                     scheduleCommand(commandManager.getAutoPlaceYellowAndHideCommand(autoPosition));
-//                    scheduleCommand(new AutoPlaceYellowCommand(robot.getElbowSubsystem(), robot.getLinearSlideSubsystem(), robot.getBoxSubsystem()));
                 }
 
                 break;
@@ -119,7 +102,7 @@ public class AutonomousController {
         CommandScheduler.getInstance().run();
         telemetry.addData("State", state);
         telemetry.addData("Current command", currentCommand.getName());
-        robot.getLinearSlideSubsystem().printData();
+//        robot.getLinearSlideSubsystem().printData();
         telemetry.update();
     }
 
@@ -137,10 +120,8 @@ public class AutonomousController {
 
     private void scheduleCommand(Command command) {
         if (command.isScheduled()) {
-            robot.getTelemetry().addData("Command already scheduled", command).setRetained(true);
             return;
         }
-        robot.getTelemetry().addData("Scheduling command", command.getName()).setRetained(true);
         currentCommand = command;
         CommandScheduler.getInstance().schedule(command);
     }
