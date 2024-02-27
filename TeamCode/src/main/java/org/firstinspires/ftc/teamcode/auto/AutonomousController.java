@@ -37,7 +37,7 @@ public class AutonomousController {
 
     private final AutoPosition autoPosition;
 
-    public AutonomousController(OpMode opMode, boolean isBlueAlliance, boolean isUpstage, boolean isPlacingYellow, boolean parkingDownstage) {
+    public AutonomousController(OpMode opMode, boolean isBlueAlliance, boolean isUpstage, boolean isPlacingYellow, boolean isParkingFromDownstage) {
         this.hardwareMap = opMode.hardwareMap;
         this.telemetry = opMode.telemetry;
 
@@ -46,7 +46,7 @@ public class AutonomousController {
 //        robot.getLinearSlideSubsystem().getTelemetry().addData("From slide, position", robot.getLinearSlideSubsystem().getPosition()).setRetained(true);
 
         commandManager = new CommandManager(robot);
-        autoPosition = new AutoPosition(isBlueAlliance, isPlacingYellow, isUpstage, parkingDownstage);
+        autoPosition = new AutoPosition(isBlueAlliance, isPlacingYellow, isUpstage, isParkingFromDownstage);
 
         if (isBlueAlliance) robot.getLedSubsystem().setSolidBlue();
         else robot.getLedSubsystem().setSolidRed();
@@ -75,6 +75,7 @@ public class AutonomousController {
                 break;
             case PLACING_PURPLE:
                 if (canContinue()) {
+                    // AutoDriveFromPurpleCommand is the last command that gets run for certain
                     state = autoPosition.isPlacingYellow ? AutonomousState.MOVING_TO_BACKDROP : AutonomousState.IDLE;
                     if (autoPosition.isUpstage) scheduleCommand(commandManager.getAutoDriveFromPurpleCommand(autoPosition));
                     else scheduleCommand(commandManager.getParkAtBackdropCommand(autoPosition));
