@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.auto.AutonomousController;
 
-@Autonomous(name = "BlueDownstage (Places yellow upstage)", group = "Auto")
+@Autonomous(name = "Blue Downstage (Places yellow upstage)", group = "Auto")
 public class AutoBlueDownstageWithPlacement extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
