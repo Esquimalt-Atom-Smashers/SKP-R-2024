@@ -31,15 +31,8 @@ public class AutoDriveFromPurpleCommand extends SequentialCommandGroup {
                     new MoveCommand(driveSubsystem, MovementType.TURN_TO_HEADING, 0),
                     new MoveCommand(driveSubsystem, MovementType.SLOW_TURN_TO_HEADING, 0)
             );
-            return;
         }
-
-        if (autoPosition.isUpstage) {
-            placingUpstage(driveSubsystem, autoPosition);
-        }
-        else {
-            placingDownstage(driveSubsystem, autoPosition);
-        }
+        else placingUpstage(driveSubsystem, autoPosition);
 
         addCommands(lastCommand);
     }
@@ -65,27 +58,6 @@ public class AutoDriveFromPurpleCommand extends SequentialCommandGroup {
                     new MoveCommand(driveSubsystem, MovementType.DRIVE, 26)
             );
         }
-    }
-
-    //not currently being used
-    private void placingDownstage(DriveSubsystem driveSubsystem, AutoPosition autoPosition) {
-
-        addCommands(
-                // Strafe right
-                new MoveCommand(driveSubsystem, MovementType.STRAFE, autoPosition.flip(-20)),
-                // Turn to heading
-                new MoveCommand(driveSubsystem, MovementType.TURN_TO_HEADING, autoPosition.flip(90)),
-                new MoveCommand(driveSubsystem, MovementType.SLOW_TURN_TO_HEADING, autoPosition.flip(90)),
-                // Drive forwards
-                new MoveCommand(driveSubsystem, MovementType.DRIVE, 85),
-                // Turn to heading
-                new MoveCommand(driveSubsystem, MovementType.TURN_TO_HEADING, autoPosition.flip(0)),
-                // Turn to heading
-                new MoveCommand(driveSubsystem, MovementType.SLOW_TURN_TO_HEADING, autoPosition.flip(0)),
-                // Drive backwards
-                new MoveCommand(driveSubsystem, MovementType.DRIVE, -5)
-        );
-
     }
 
     @Override

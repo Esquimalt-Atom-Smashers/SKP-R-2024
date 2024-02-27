@@ -91,12 +91,23 @@ public class CommandManager {
                 new MoveElbowCommand(robot.getElbowSubsystem(), robot.getElbowSubsystem().getDroneLaunchPosition())
         );
 
-        droneLaunchCommand = new InstantCommand(() -> {
-            robot.setState(Robot.RobotState.DRIVING);
-            robot.getDroneSubsystem().release();
-        });
+//        droneLaunchCommand = new InstantCommand(() -> {
+//            robot.setState(Robot.RobotState.DRIVING);
+//            robot.getDroneSubsystem().release();
+//        });
+        droneLaunchCommand = new SequentialCommandGroup(
+                new InstantCommand(robot.getDroneSubsystem()::release),
+                new WaitCommand(500),
+                new InstantCommand(() -> {
+                    robot.getDroneSubsystem().startPosition();
+                    robot.setState(Robot.RobotState.DRIVING);
+                })
+        );
 
-        droneCancelCommand = new InstantCommand(() -> robot.setState(Robot.RobotState.DRIVING));
+        droneCancelCommand = new InstantCommand(() -> {
+            robot.setState(Robot.RobotState.DRIVING);
+            robot.getDroneSubsystem().startPosition();
+        });
 
         defaultElbowCommand = new RunCommand(() -> {
             robot.getElbowSubsystem().moveManually(Math.abs(robot.getOperatorGamepad().getLeftY()) >= 0.1 ? robot.getOperatorGamepad().getLeftY() : 0);
@@ -278,6 +289,10 @@ public class CommandManager {
 
     public Command getAutoDriveAndPlacePurpleCommand(AutoPosition autoPosition) {
         return new AutoDriveAndPlacePurpleCommand(robot.getDriveSubsystem(), robot.getIntakeSubsystem(), autoPosition);
+    }
+
+    public Command getParkAtBackdropCommand(AutoPosition autoPosition) {
+        return new ParkAtBackdropCommand(robot.getDriveSubsystem(), autoPosition);
     }
 
     public Command getAutoDriveFromPurpleCommand(AutoPosition autoPosition) {

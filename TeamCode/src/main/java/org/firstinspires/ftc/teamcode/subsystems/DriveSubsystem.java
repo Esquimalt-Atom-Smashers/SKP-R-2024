@@ -33,7 +33,7 @@ public class DriveSubsystem extends CustomSubsystemBase {
     private final DcMotorEx[] motors;
 
     /** The built-in IMU(gyro) on the control hub. */
-    private final BHI260IMU imu;
+    private BHI260IMU imu;
 
     private enum DriveState {
         MANUAL,
@@ -63,6 +63,7 @@ public class DriveSubsystem extends CustomSubsystemBase {
 
         imu = hardwareMap.get(BHI260IMU.class, IMU_NAME);
         configureIMU();
+        resetGyro();
     }
 
     /** Configure the drive motors by setting their directions and zero power behaviors. */
@@ -87,7 +88,7 @@ public class DriveSubsystem extends CustomSubsystemBase {
                 )
         );
         imu.initialize(parameters);
-        resetGyro();
+//        resetGyro();
     }
 
     /** Reset the encoders on the drive motors */
@@ -309,8 +310,10 @@ public class DriveSubsystem extends CustomSubsystemBase {
         return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
     }
 
-    /** Reset the gyro by resetting the yaw. */
+//    /** Reset the gyro by resetting the yaw. */
     public void resetGyro() {
+        imu = hardwareMap.get(BHI260IMU.class, IMU_NAME);
+        configureIMU();
         imu.resetYaw();
     }
 

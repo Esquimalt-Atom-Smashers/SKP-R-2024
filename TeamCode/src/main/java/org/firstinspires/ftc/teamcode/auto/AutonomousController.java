@@ -48,8 +48,8 @@ public class AutonomousController {
         commandManager = new CommandManager(robot);
         autoPosition = new AutoPosition(isBlueAlliance, isPlacingYellow, isUpstage, parkingDownstage);
 
-        if (isBlueAlliance) robot.getLedSubsystem().setBlue();
-        else robot.getLedSubsystem().setRed();
+        if (isBlueAlliance) robot.getLedSubsystem().setSolidBlue();
+        else robot.getLedSubsystem().setSolidRed();
 
 //        robot.getHangingSubsystem().setDefaultCommand(commandManager.getAutoDefaultHangingCommand());
     }
@@ -76,7 +76,8 @@ public class AutonomousController {
             case PLACING_PURPLE:
                 if (canContinue()) {
                     state = autoPosition.isPlacingYellow ? AutonomousState.MOVING_TO_BACKDROP : AutonomousState.IDLE;
-                    scheduleCommand(commandManager.getAutoDriveFromPurpleCommand(autoPosition));
+                    if (autoPosition.isUpstage) scheduleCommand(commandManager.getAutoDriveFromPurpleCommand(autoPosition));
+                    else scheduleCommand(commandManager.getParkAtBackdropCommand(autoPosition));
                 }
                 break;
             case MOVING_TO_BACKDROP:

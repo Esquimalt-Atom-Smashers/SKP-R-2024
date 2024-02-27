@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.subsystems.BoxSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ElbowSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LinearSlideSubsystem;
 
@@ -22,7 +23,7 @@ public class AutoPlaceYellowCommand extends SequentialCommandGroup {
      * @param linearSlideSubsystem Reference to the linearSlideSubsystem
      * @param boxSubsystem Reference to the boxSubsystem
      */
-    public AutoPlaceYellowCommand(ElbowSubsystem elbowSubsystem, LinearSlideSubsystem linearSlideSubsystem, BoxSubsystem boxSubsystem) {
+    public AutoPlaceYellowCommand(ElbowSubsystem elbowSubsystem, LinearSlideSubsystem linearSlideSubsystem, BoxSubsystem boxSubsystem, DriveSubsystem driveSubsystem) {
         addRequirements(elbowSubsystem, linearSlideSubsystem, boxSubsystem);
         lastCommand = new WaitCommand(1);
         addCommands(
@@ -33,6 +34,7 @@ public class AutoPlaceYellowCommand extends SequentialCommandGroup {
                 // Move the arm to low scoring position
                 new MoveElbowCommand(elbowSubsystem, elbowSubsystem.getLowScoringPosition()),
                 new MoveSlideCommand(linearSlideSubsystem, linearSlideSubsystem.getLowScoringPosition()),
+                new MoveCommand(driveSubsystem, MoveCommand.MovementType.DRIVE, 4),
                 // Open then close the box
                 new InstantCommand(boxSubsystem::openBox, boxSubsystem),
                 new WaitCommand(500),

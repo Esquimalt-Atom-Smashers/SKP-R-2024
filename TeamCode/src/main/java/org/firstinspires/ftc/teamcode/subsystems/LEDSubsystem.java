@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import static org.firstinspires.ftc.teamcode.Constants.LEDConstants.*;
 
+import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.RunCommand;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -37,12 +39,20 @@ public class LEDSubsystem extends CustomSubsystemBase {
         ledDriver.setPattern(pattern);
     }
 
+    public void setSolidBlue() {
+        setLights(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+    }
+
     /** Sets the lights to blue. */
     public void setBlue() {
         setLights(RevBlinkinLedDriver.BlinkinPattern.STROBE_BLUE);
     }
 
-    /** Sets the lights to red. */
+    /** Sets the lights to solid red. */
+    public void setSolidRed() {
+        setLights(RevBlinkinLedDriver.BlinkinPattern.RED);
+    }
+
     public void setRed() {
         setLights(RevBlinkinLedDriver.BlinkinPattern.STROBE_RED);
     }

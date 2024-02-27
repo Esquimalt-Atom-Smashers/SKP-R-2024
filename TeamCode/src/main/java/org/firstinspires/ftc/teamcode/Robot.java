@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -103,6 +105,8 @@ public class Robot {
 
         // If we should reset the encoders
         if (resetEncoders) resetEncoders();
+
+        ledSubsystem.setPink();
     }
 
     /** Binds the ftclib commands that control the robot. */
@@ -280,11 +284,11 @@ public class Robot {
 
     public void printData() {
         opMode.telemetry.addData("Robot state", state);
-//        opMode.telemetry.addData("Gyro heading: ",  driveSubsystem.getHeading());
+        opMode.telemetry.addData("Gyro heading: ",  driveSubsystem.getHeading());
 
 //        elbowSubsystem.printData();
 //        linearSlideSubsystem.printData();
-//        distanceSensorSubsystem.printData();
+        distanceSensorSubsystem.printData();
 //        boxSubsystem.printData();
 //        intakeSubsystem.printData();
     }
