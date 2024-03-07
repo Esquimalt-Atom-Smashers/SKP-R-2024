@@ -50,6 +50,13 @@ public class AutoPosition {
         this.spikeMark = spikeMark;
     }
 
+    /**
+     * Constructs an autonomous position with with the specified parameters, assumes we don't want to park from down stage.
+     * @param spikeMark Which spike mark the team prop is on.
+     * @param isBlue If we are on the blue alliance.
+     * @param isPlacingYellow Whether we want to place the yellow on the backdrop.
+     * @param isUpstage Whether we are upstage.
+     */
     public AutoPosition(SpikeMark spikeMark, boolean isBlue, boolean isPlacingYellow, boolean isUpstage) {
         this(isBlue, isPlacingYellow, isUpstage, false);
         this.spikeMark = spikeMark;

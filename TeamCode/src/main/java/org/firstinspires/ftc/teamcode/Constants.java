@@ -111,8 +111,6 @@ public class Constants {
 
         public static  int INTAKE_POSITION = 0;
         public static  int LOW_SCORING_POSITION = 7600;
-        @Deprecated
-        public static  int AUTO_SCORING_POSITION = 7000;
 
         public static  int LEVEL_POSITION = 3500;
         public static  int DRIVING_POSITION = 1100;
@@ -175,8 +173,6 @@ public class Constants {
 
         public static  int IN_POSITION = MIN_POSITION;
         public static  int LOW_SCORING_POSITION = 2600;
-        @Deprecated
-        public static  int AUTO_SCORING_POSITION = 2800;
 
         // TODO: Find new value
         public static  int MEDIUM_SCORING_POSITION = -1; //1870;

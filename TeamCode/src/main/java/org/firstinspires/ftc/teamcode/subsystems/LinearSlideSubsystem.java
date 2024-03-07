@@ -25,9 +25,6 @@ public class LinearSlideSubsystem extends CustomSubsystemBase {
     private final PIDController controller;
     private static double target = 0;
 
-    private double lastPower;
-//    private double lastLastPower;
-
     private PIDSubsystemState state;
 
     private ElapsedTime timer;
@@ -147,7 +144,6 @@ public class LinearSlideSubsystem extends CustomSubsystemBase {
 //            telemetry.addData("Outer Inner if", "").setRetained(true);
             if (target == 0) {
 //                telemetry.addData("Inside Inner Loop", "").setRetained(true);
-                lastPower = -1;
                 slideMotor.setPower(-1);
                 if (isLimitSwitchPressed() || isTimeoutDone()) {
 //                    telemetry.addData("Inside Inside Inner Loop", "").setRetained(true);
@@ -168,7 +164,6 @@ public class LinearSlideSubsystem extends CustomSubsystemBase {
                 int slidePosition = slideMotor.getCurrentPosition();
                 double power = controller.calculate(slidePosition, target);
                 slideMotor.setPower(power);
-                lastPower = power;
                 // If the power isn't much, we are about as close to the target as we are going to get,
                 // so we don't update anymore
                 // Or, if the timer is over the timeout, we also stop
@@ -196,19 +191,9 @@ public class LinearSlideSubsystem extends CustomSubsystemBase {
     public void printData() {
         telemetry.addLine("--- Slide ---");
         telemetry.addData("State", state);
-
-//        telemetry.addData("Slide Position", slideMotor.getCurrentPosition());
-//        telemetry.addData("Slide last power", lastPower);
-        telemetry.addData("Is limit pressed?", isLimitSwitchPressed());
-//        telemetry.addData("Target", target);
-//        telemetry.addLine("Comparing " + Math.abs(lastPower) + " and " + PID_POWER_TOLERANCE);
-//        telemetry.addData("Result", Math.abs(lastPower) <= PID_POWER_TOLERANCE);
-//        telemetry.addData("Target", target);
-//        telemetry.addData("State", state);
-//        telemetry.addData("Power", slideMotor.getPower());
-//        telemetry.addData("Velocity", slideMotor.getVelocity());
-//        telemetry.addData("Current (amps)", slideMotor.getCurrent(CurrentUnit.AMPS));
-//        telemetry.addData("Is over current?", slideMotor.isOverCurrent());
+        telemetry.addData("Target", target);
+        telemetry.addData("Slide Position", slideMotor.getCurrentPosition());
+        telemetry.addData("Power", slideMotor.getPower());
     }
 
     /** @return true if the motor is at the target, false otherwise. */
@@ -234,11 +219,6 @@ public class LinearSlideSubsystem extends CustomSubsystemBase {
     /** @return the minimum position of the slide */
     public int getInPosition() {
         return IN_POSITION;
-    }
-
-    @Deprecated
-    public int getAutoScoringPosition() {
-        return AUTO_SCORING_POSITION;
     }
 
     /** @return True if the limit switch is being pressed down */

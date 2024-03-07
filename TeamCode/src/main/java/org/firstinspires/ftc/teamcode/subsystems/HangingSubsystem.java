@@ -63,27 +63,31 @@ public class HangingSubsystem extends CustomSubsystemBase {
     /** Stop the winch motor. */
     public void stopMotor() { winchMotor.setPower(0); }
 
+    /** Raises the servo, also sets the state to manual. */
     public void raiseServo() {
         hookServo.turnToAngle(UP_POSITION);
         servoState = ServoState.MANUAL;
     }
 
+    /** Lowers the servo, also sets the state to level */
     public void lowerServo() {
         hookServo.turnToAngle(DOWN_POSITION);
         servoState = ServoState.LEVEL;
     }
 
+    /** Constantly updates the angle of the servo relative to the position of the elbow, so that it stays level, relative to the ground. Only works while the state is level. */
     public void levelServo(ElbowSubsystem elbowSubsystem) {
         if (servoState == ServoState.LEVEL) {
-
             hookServo.turnToAngle(convertPosition(elbowSubsystem.getPosition()));
         }
     }
 
+    /**
+     * Converts elbow motor position to servo angle.
+     * @param value The current position of the elbow motor
+     * @return The servo angle that would make it level
+     */
     private double convertPosition(double value) {
-//        telemetry.addData("Input", value);
-//        telemetry.addData("Output", Range.clip(-0.009 * value + 225, 0, 270));
-
         // See this
         // elbow    servo
         // 3900	    190

@@ -2,21 +2,15 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.command.FunctionalCommand;
-import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.commands.AutoPlaceYellowCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandManager;
-import org.firstinspires.ftc.teamcode.commands.MoveCommand;
-import org.firstinspires.ftc.teamcode.commands.MoveElbowCommand;
 
+/**
+ * A class that is used to move the robot and arm during autonomous.
+ */
 public class AutonomousController {
     enum AutonomousState {
         MOVING_TO_SPIKE_MARKS,
@@ -27,7 +21,6 @@ public class AutonomousController {
         IDLE
     }
 
-    private final HardwareMap hardwareMap;
     private final Telemetry telemetry;
     private final Robot robot;
     private final CommandManager commandManager;
@@ -37,28 +30,39 @@ public class AutonomousController {
 
     private final AutoPosition autoPosition;
 
+    /**
+     * Constructs a new AutonomousController, which initialized a new robot, command manager, and auto position.
+     *
+     * @param opMode The opMode that created this
+     * @param isBlueAlliance Whether we are on the blue alliance
+     * @param isUpstage Whether we are upstage
+     * @param isPlacingYellow Whether we want to place the yellow pixel
+     * @param isParkingFromDownstage Whether we want to park upstage from downstage
+     */
     public AutonomousController(OpMode opMode, boolean isBlueAlliance, boolean isUpstage, boolean isPlacingYellow, boolean isParkingFromDownstage) {
-        this.hardwareMap = opMode.hardwareMap;
         this.telemetry = opMode.telemetry;
 
         robot = new Robot(opMode, true, false);
-//        robot.getElbowSubsystem().getTelemetry().addData("From elbow, position", robot.getElbowSubsystem().getPosition()).setRetained(true);
-//        robot.getLinearSlideSubsystem().getTelemetry().addData("From slide, position", robot.getLinearSlideSubsystem().getPosition()).setRetained(true);
 
         commandManager = new CommandManager(robot);
         autoPosition = new AutoPosition(isBlueAlliance, isPlacingYellow, isUpstage, isParkingFromDownstage);
 
         if (isBlueAlliance) robot.getLedSubsystem().setSolidBlue();
         else robot.getLedSubsystem().setSolidRed();
-
-//        robot.getHangingSubsystem().setDefaultCommand(commandManager.getAutoDefaultHangingCommand());
     }
 
+    /**
+     * Schedules the first command used in autonomous.
+     */
     public void start() {
         state = AutonomousState.MOVING_TO_SPIKE_MARKS;
         scheduleCommand(commandManager.getAutoSetupCommand());
     }
 
+    /**
+     * Runs the autonomous manager. If the current command is finished, schedule the next command and switches the state.
+     * Also runs the command scheduler, and updates the telemetry.
+     */
     public void run() {
         switch (state) {
             case MOVING_TO_SPIKE_MARKS:
@@ -89,10 +93,6 @@ public class AutonomousController {
 
                 break;
             case MOVING_TO_PLACE_YELLOW:
-                if (canContinue()) {
-                    state = AutonomousState.IDLE;
-                }
-                break;
             case TURNING_CORRECT_DIRECTION:
                 if (canContinue()) {
                     state = AutonomousState.IDLE;
@@ -108,18 +108,32 @@ public class AutonomousController {
         telemetry.update();
     }
 
+    /** @return The autonomous position, which contains information about our starting position */
+    @SuppressWarnings("unused")
     public AutoPosition.SpikeMark getSpikeMark() {
         return autoPosition.spikeMark;
     }
 
+    /** @return The command manager */
+    @SuppressWarnings("unused")
     public CommandManager getCommandManager() {
         return commandManager;
     }
 
+    /**
+     * Checks if the current command is finished or not.
+     *
+     * @return True if the current command has finished, false otherwise
+     */
     private boolean canContinue() {
         return currentCommand.isFinished();
     }
 
+    /**
+     * Schedules a command to run. Also set the current command to the one passed in.
+     *
+     * @param command The command to run
+     */
     private void scheduleCommand(Command command) {
         if (command.isScheduled()) {
             return;

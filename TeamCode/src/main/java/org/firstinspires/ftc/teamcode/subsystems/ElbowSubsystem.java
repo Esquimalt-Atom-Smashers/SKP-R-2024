@@ -55,7 +55,7 @@ public class ElbowSubsystem extends CustomSubsystemBase {
         state = PIDSubsystemState.MANUAL;
     }
 
-    /** Configure the elbow motor by setting the direction and zero power behavior */
+    /** Configure the elbow motor by setting the direction and zero power behavior. */
     private void configureMotor() {
         elbowMotor.setDirection(ELBOW_MOTOR_DIRECTION);
         elbowMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -159,6 +159,11 @@ public class ElbowSubsystem extends CustomSubsystemBase {
         }
     }
 
+    /**
+     * Check if the timeout has passed, if is has, reset the timeout and return true.
+     *
+     * @return True if the timeout has elapsed, false otherwise
+     */
     private boolean isTimeoutPassed() {
         if (timeout > 0 && timer.seconds() >= timeout) {
             timeout = 0;
@@ -167,11 +172,12 @@ public class ElbowSubsystem extends CustomSubsystemBase {
         return false;
     }
 
-    /** @return true if the motor is at the target, false otherwise. */
+    /** @return True if the motor is at the target, false otherwise */
     public boolean isAtTarget() {
         return state == PIDSubsystemState.AT_TARGET;
     }
 
+    /** @return The position of the elbow motor */
     public int getPosition() {
         return elbowMotor.getCurrentPosition();
     }
@@ -180,12 +186,11 @@ public class ElbowSubsystem extends CustomSubsystemBase {
     @Override
     public void printData() {
         telemetry.addLine("--- Elbow Subsystem ---");
+        telemetry.addData("State", state);
         telemetry.addData("Elbow Position", elbowMotor.getCurrentPosition());
         telemetry.addData("Elbow last power", lastPower);
         telemetry.addData("Is limit pressed?", isLimitSwitchPressed());
         telemetry.addData("Target", target);
-//        telemetry.addData("Target", target);
-//        telemetry.addData("State", state);
     }
 
     /** @return the preset low scoring position */
@@ -221,11 +226,6 @@ public class ElbowSubsystem extends CustomSubsystemBase {
     /** @return the minimum position of the elbow */
     public int getIntakePosition() {
         return INTAKE_POSITION;
-    }
-
-    @Deprecated
-    public int getAutoScoringPosition() {
-        return AUTO_SCORING_POSITION;
     }
 
     /** @return True if the limit switch is being held down */

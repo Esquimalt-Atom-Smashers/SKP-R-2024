@@ -41,6 +41,7 @@ public class DriveSubsystem extends CustomSubsystemBase {
         TURNING_TO_POSITION
     }
 
+    @SuppressWarnings("unused")
     private DriveState driveState = DriveState.MANUAL;
 
     private double targetHeading;
@@ -175,6 +176,7 @@ public class DriveSubsystem extends CustomSubsystemBase {
      *
      * @param inches The distance in inches to drive forwards/backwards
      */
+    @SuppressWarnings("unused")
     public void driveByDistance(double inches) {
         driveByDistanceAsync(inches);
         while (!isFinishedMoving()) {doNothing("Driving");}
@@ -201,6 +203,7 @@ public class DriveSubsystem extends CustomSubsystemBase {
      *
      * @param inches The number of inches to strafe right/left
      */
+    @SuppressWarnings("unused")
     public void strafeByDistance(double inches) {
         strafeByDistanceAsync(inches);
         while (!isFinishedMoving()) {doNothing("Strafing");}
@@ -226,6 +229,7 @@ public class DriveSubsystem extends CustomSubsystemBase {
      *
      * @param angle The angle to turn the robot by
      */
+    @SuppressWarnings("unused")
     public void turn(double angle) {
         turnAsync(angle, AUTO_TURN_SPEED);
         while (!isFinishedTurning()) {doNothing("Turning");}
@@ -251,6 +255,7 @@ public class DriveSubsystem extends CustomSubsystemBase {
     }
 
     /** @return What speed we should turn, assumes we are using the default auto turn speed */
+    @SuppressWarnings("unused")
     public double getAutoTurnSpeed() {
         return getAutoTurnSpeed(AUTO_TURN_SPEED);
     }

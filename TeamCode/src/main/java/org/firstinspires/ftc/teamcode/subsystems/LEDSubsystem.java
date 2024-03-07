@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import static org.firstinspires.ftc.teamcode.Constants.LEDConstants.*;
 
-import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.RunCommand;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -15,7 +13,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * @author Esquimalt Atom Smashers
  */
 public class LEDSubsystem extends CustomSubsystemBase {
-
     private final RevBlinkinLedDriver ledDriver;
 
     /**
@@ -39,12 +36,14 @@ public class LEDSubsystem extends CustomSubsystemBase {
         ledDriver.setPattern(pattern);
     }
 
+    /** Sets the light to solid blue. */
     public void setSolidBlue() {
         setLights(RevBlinkinLedDriver.BlinkinPattern.BLUE);
     }
 
-    /** Sets the lights to blue. */
-    public void setBlue() {
+    /** Sets the lights to strobe blue. */
+    @SuppressWarnings("unused")
+    public void setStrobeBlue() {
         setLights(RevBlinkinLedDriver.BlinkinPattern.STROBE_BLUE);
     }
 
@@ -53,7 +52,9 @@ public class LEDSubsystem extends CustomSubsystemBase {
         setLights(RevBlinkinLedDriver.BlinkinPattern.RED);
     }
 
-    public void setRed() {
+    /** Sets the lights to strobe red. */
+    @SuppressWarnings("unused")
+    public void setStrobeRed() {
         setLights(RevBlinkinLedDriver.BlinkinPattern.STROBE_RED);
     }
 
@@ -63,16 +64,19 @@ public class LEDSubsystem extends CustomSubsystemBase {
     }
 
     /** Sets the lights to rainbow. */
+    @SuppressWarnings("unused")
     public void setRainbow() {
         setLights(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_WITH_GLITTER);
     }
 
     /** Sets the lights to twinkle party. */
+    @SuppressWarnings("unused")
     public void setParty() {
         setLights(RevBlinkinLedDriver.BlinkinPattern.TWINKLES_PARTY_PALETTE);
     }
 
     /** Sets the lights to lava waves. */
+    @SuppressWarnings("unused")
     public void setLavaWaves() {
         setLights(RevBlinkinLedDriver.BlinkinPattern.COLOR_WAVES_LAVA_PALETTE);
     }
