@@ -30,7 +30,7 @@ public class ParkAtBackdropCommand extends SequentialCommandGroup {
         addCommands(lastCommand);
     }
     private void placingDownstage(DriveSubsystem driveSubsystem, AutoPosition autoPosition) {
-        if (autoPosition.parkingDownstage) {
+        if (autoPosition.isParkingFromDownstage) {
             if(autoPosition.spikeMark == AutoPosition.SpikeMark.DOWNSTAGE)
                 addCommands(
                     // Strafe right
